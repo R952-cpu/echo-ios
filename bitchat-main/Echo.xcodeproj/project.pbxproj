@@ -97,7 +97,8 @@
 		ABAF130D88561F4A646F0430 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763E0DBA9492A654FC0CDCB9 /* AppInfoView.swift */; };
 		AD11E46940D742AEAF547EB2 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763E0DBA9492A654FC0CDCB9 /* AppInfoView.swift */; };
 		B0CA7796B2B2AC2B33F84548 /* CompressionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F149C43D1915831B60FE09 /* CompressionUtil.swift */; };
-		BCCFEDC1EBE59323C3C470BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A69677D382F1C3D5ED03F7D /* Assets.xcassets */; };
+               BCCFEDC1EBE59323C3C470BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A69677D382F1C3D5ED03F7D /* Assets.xcassets */; };
+               3582180133584E20BDCDAC54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A69677D382F1C3D5ED03F7D /* Assets.xcassets */; };
 		C0A80BA73EC1A372B9338E3C /* BatteryOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED176FF3B274E35C2D827894 /* BatteryOptimizer.swift */; };
 		C99763A4761567F587D21688 /* MessageRetryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D7595A613F7ED3B386132 /* MessageRetryService.swift */; };
 		CD0AE423F03AC52BAFC16834 /* DeliveryTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B9C3EDF3BC73D3BC106DA4 /* DeliveryTracker.swift */; };
@@ -509,16 +510,17 @@
 			productReference = 03C57F452B55FD0FD8F51421 /* EchoTests_macOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		57CA17A36A2532A6CFF367BB /* EchoShareExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "EchoShareExtension" */;
-			buildPhases = (
-				0A08E70F08F55FD5BA8C7EF3 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
+               57CA17A36A2532A6CFF367BB /* EchoShareExtension */ = {
+                       isa = PBXNativeTarget;
+                       buildConfigurationList = E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "EchoShareExtension" */;
+                       buildPhases = (
+                               0A08E70F08F55FD5BA8C7EF3 /* Sources */,
+                               23891543E1F14747B6ABE894 /* Resources */,
+                       );
+                       buildRules = (
+                       );
+                       dependencies = (
+                       );
 			name = EchoShareExtension;
 			packageProductDependencies = (
 			);
@@ -629,16 +631,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CD6E8F32BC38357473954F97 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BCCFEDC1EBE59323C3C470BF /* Assets.xcassets in Resources */,
-				6E81752F2E47CFDA00B3B72E /* Assets 2.xcassets in Resources */,
-				E65BBB6544FE0159F3C6C3A8 /* LaunchScreen.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+               CD6E8F32BC38357473954F97 /* Resources */ = {
+                       isa = PBXResourcesBuildPhase;
+                       buildActionMask = 2147483647;
+                       files = (
+                               BCCFEDC1EBE59323C3C470BF /* Assets.xcassets in Resources */,
+                               6E81752F2E47CFDA00B3B72E /* Assets 2.xcassets in Resources */,
+                               E65BBB6544FE0159F3C6C3A8 /* LaunchScreen.storyboard in Resources */,
+                       );
+                       runOnlyForDeploymentPostprocessing = 0;
+               };
+               23891543E1F14747B6ABE894 /* Resources */ = {
+                       isa = PBXResourcesBuildPhase;
+                       buildActionMask = 2147483647;
+                       files = (
+                               3582180133584E20BDCDAC54 /* Assets.xcassets in Resources */,
+                       );
+                       runOnlyForDeploymentPostprocessing = 0;
+               };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -862,12 +872,13 @@
 			};
 			name = Release;
 		};
-		3DCF45111852FB2AEBE05E31 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = YES;
-				CODE_SIGNING_REQUIRED = YES;
-				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+               3DCF45111852FB2AEBE05E31 /* Release */ = {
+                       isa = XCBuildConfiguration;
+                       buildSettings = {
+                               ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                               CODE_SIGNING_ALLOWED = YES;
+                               CODE_SIGNING_REQUIRED = YES;
+                               CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = bitchatShareExtension/bitchatShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
@@ -1176,12 +1187,13 @@
 			};
 			name = Debug;
 		};
-		DAC5E82049F8A97360BE63D6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = YES;
-				CODE_SIGNING_REQUIRED = YES;
-				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
+               DAC5E82049F8A97360BE63D6 /* Debug */ = {
+                       isa = XCBuildConfiguration;
+                       buildSettings = {
+                               ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                               CODE_SIGNING_ALLOWED = YES;
+                               CODE_SIGNING_REQUIRED = YES;
+                               CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = bitchatShareExtension/bitchatShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
