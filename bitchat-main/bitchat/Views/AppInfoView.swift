@@ -9,17 +9,17 @@ struct AppInfoView: View {
     }
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color("EchoBlue") // Couleur principale Echo
     }
     
     private var secondaryTextColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.8) : Color(red: 0, green: 0.5, blue: 0).opacity(0.8)
+        Color("EchoBlue").opacity(0.8) // Couleur secondaire Echo
     }
     
     // MARK: - Constants
     private enum Strings {
-        static let appName = "bitchat"
-        static let tagline = "mesh sidegroupchat"
+        static let appName = "Echo"
+        static let tagline = "le chat bleu sans permission"
         
         enum Features {
             static let title = "FEATURES"
@@ -115,7 +115,7 @@ struct AppInfoView: View {
             VStack(alignment: .leading, spacing: 16) {
                 SectionHeader(Strings.Features.title)
                 
-                FeatureRow(icon: Strings.Features.offlineComm.0, 
+                FeatureRow(icon: Strings.Features.offlineComm.0,
                           title: Strings.Features.offlineComm.1,
                           description: Strings.Features.offlineComm.2)
                 
@@ -194,10 +194,9 @@ struct AppInfoView: View {
 
 struct SectionHeader: View {
     let title: String
-    @Environment(\.colorScheme) var colorScheme
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color("EchoBlue")
     }
     
     init(_ title: String) {
@@ -216,14 +215,13 @@ struct FeatureRow: View {
     let icon: String
     let title: String
     let description: String
-    @Environment(\.colorScheme) var colorScheme
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color("EchoBlue")
     }
     
     private var secondaryTextColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.8) : Color(red: 0, green: 0.5, blue: 0).opacity(0.8)
+        Color("EchoBlue").opacity(0.8)
     }
     
     var body: some View {
