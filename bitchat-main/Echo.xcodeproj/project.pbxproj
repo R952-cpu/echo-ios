@@ -78,8 +78,6 @@
 		61C81ED5F679D5E973EE0C07 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3448F84BF86A42A3CC4A9379 /* NotificationService.swift */; };
 		6DE056E1EE9850E9FBF50157 /* BitchatProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229F17B68CFF7AB1BC91C847 /* BitchatProtocol.swift */; };
 		6E7761E21C99F28AE2F9BE5F /* BitchatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF625BB3AD919322C01A46B2 /* BitchatApp.swift */; };
-		6E81752F2E47CFDA00B3B72E /* Assets 2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E81752E2E47CFDA00B3B72E /* Assets 2.xcassets */; };
-		6E8175302E47CFDA00B3B72E /* Assets 2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E81752E2E47CFDA00B3B72E /* Assets 2.xcassets */; };
 		6EDF52032E478C8F00AD7EBE /* StaffAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52012E47824900AD7EBE /* StaffAuth.swift */; };
 		6EDF52042E478C9600AD7EBE /* StaffCodeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52022E47828B00AD7EBE /* StaffCodeSheet.swift */; };
 		6EDF52062E478CEC00AD7EBE /* StaffBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52052E478CDF00AD7EBE /* StaffBadge.swift */; };
@@ -189,7 +187,6 @@
 		527EB217EFDFAD4CF1C91F07 /* bitchat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = bitchat.entitlements; sourceTree = "<group>"; };
 		61F92EBA29C47C0FCC482F1F /* EchoShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EchoShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2446380E7A44E49A35B664 /* IdentityModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityModels.swift; sourceTree = "<group>"; };
-		6E81752E2E47CFDA00B3B72E /* Assets 2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets 2.xcassets"; sourceTree = "<group>"; };
 		6EDF52012E47824900AD7EBE /* StaffAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAuth.swift; sourceTree = "<group>"; };
 		6EDF52022E47828B00AD7EBE /* StaffCodeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffCodeSheet.swift; sourceTree = "<group>"; };
 		6EDF52052E478CDF00AD7EBE /* StaffBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffBadge.swift; sourceTree = "<group>"; };
@@ -336,7 +333,6 @@
 			isa = PBXGroup;
 			children = (
 				3A69677D382F1C3D5ED03F7D /* Assets.xcassets */,
-				6E81752E2E47CFDA00B3B72E /* Assets 2.xcassets */,
 				FF7AF93D874001FBD94C8306 /* bitchat-macOS.entitlements */,
 				527EB217EFDFAD4CF1C91F07 /* bitchat.entitlements */,
 				EF625BB3AD919322C01A46B2 /* BitchatApp.swift */,
@@ -626,7 +622,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E8175302E47CFDA00B3B72E /* Assets 2.xcassets in Resources */,
 				7DD72D928FF9DD3CA81B46B0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -636,7 +631,6 @@
                        buildActionMask = 2147483647;
                        files = (
                                BCCFEDC1EBE59323C3C470BF /* Assets.xcassets in Resources */,
-                               6E81752F2E47CFDA00B3B72E /* Assets 2.xcassets in Resources */,
                                E65BBB6544FE0159F3C6C3A8 /* LaunchScreen.storyboard in Resources */,
                        );
                        runOnlyForDeploymentPostprocessing = 0;
