@@ -89,11 +89,11 @@ struct ContentView: View {
     }
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color(red: 36/255, green: 150/255, blue: 237/255)
     }
     
     private var secondaryTextColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.8) : Color(red: 0, green: 0.5, blue: 0).opacity(0.8)
+        Color(red: 36/255, green: 150/255, blue: 237/255).opacity(0.8)
     }
     
     // MARK: - Body
@@ -199,21 +199,13 @@ struct ContentView: View {
                 FingerprintView(viewModel: viewModel, peerID: peerID)
             }
         }
-        // ✅ Feuille STAFF — à ce niveau (au même niveau que les autres .sheet)
-        .sheet(isPresented: $showStaffSheet) {
-            StaffCodeSheet()
-        }
-        // ✅ Badge STAFF en overlay
-        .overlay(alignment: .topTrailing) {
-            StaffBadge()
-                .padding(.top, 8)
-                .padding(.trailing, 10)
-        }
         .confirmationDialog(
             selectedMessageSender.map { "@\($0)" } ?? "Actions",
             isPresented: $showMessageActions,
             titleVisibility: .visible
         )
+        
+        
         {
             Button("private message") {
                 if let peerID = selectedMessageSenderID {
@@ -804,10 +796,7 @@ struct ContentView: View {
             Divider()
             messagesView(privatePeer: nil)
             Divider()
-            // ✅ Global composer désactivé si pas STAFF
-            Group { inputView }
-                .disabled(!isStaff)
-                .opacity(isStaff ? 1.0 : 0.5)
+            inputView
         }
         .background(backgroundColor)
         .foregroundColor(textColor)
@@ -857,7 +846,6 @@ struct ContentView: View {
                 Divider()
                 messagesView(privatePeer: viewModel.selectedPrivateChatPeer)
                 Divider()
-                // ⚠️ PM reste actif, pas de disable ici
                 inputView
             }
             .background(backgroundColor)
@@ -868,15 +856,11 @@ struct ContentView: View {
     
     private var mainHeaderView: some View {
         HStack(spacing: 0) {
-            Text("ECHO/")
+            Text("echo/")
                 .font(.system(size: 18, weight: .medium, design: .monospaced))
                 .foregroundColor(textColor)
                 .onTapGesture(count: 3) {
-                    // ✅ Triple-tap → feuille STAFF
-                    showStaffSheet = true
-                }
-                .onLongPressGesture(minimumDuration: 0.8) {
-                    // (optionnel) remap panic en appui long
+                    // PANIC: Triple-tap to clear all data
                     viewModel.panicClearAllData()
                 }
                 .onTapGesture(count: 1) {
@@ -1003,99 +987,99 @@ struct ContentView: View {
         }()
         
         ZStack {
-            // Center content - always perfectly centered
-            Button(action: {
-                viewModel.showFingerprint(for: privatePeerID)
-            }) {
-                HStack(spacing: 6) {
-                    // Show transport icon based on connection state (like peer list)
-                    if let connectionState = peer?.connectionState {
-                        switch connectionState {
-                        case .bluetoothConnected:
-                            // Radio icon for mesh connection
-                            Image(systemName: "dot.radiowaves.left.and.right")
-                                .font(.system(size: 14))
+                    // Center content - always perfectly centered
+                    Button(action: {
+                        viewModel.showFingerprint(for: privatePeerID)
+                    }) {
+                        HStack(spacing: 6) {
+                            // Show transport icon based on connection state (like peer list)
+                            if let connectionState = peer?.connectionState {
+                                switch connectionState {
+                                case .bluetoothConnected:
+                                    // Radio icon for mesh connection
+                                    Image(systemName: "dot.radiowaves.left.and.right")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(textColor)
+                                        .accessibilityLabel("Connected via mesh")
+                                case .relayConnected:
+                                    // Chain link for relay connection
+                                    Image(systemName: "link")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(Color.blue)
+                                        .accessibilityLabel("Connected via relay")
+                                case .nostrAvailable:
+                                    // Purple globe for Nostr
+                                    Image(systemName: "globe")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.purple)
+                                        .accessibilityLabel("Available via Nostr")
+                                case .offline:
+                                    // Should not happen for PM header, but handle gracefully
+                                    EmptyView()
+                                }
+                            } else if isNostrAvailable {
+                                // Fallback to Nostr if peer not in list but is mutual favorite
+                                Image(systemName: "globe")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.purple)
+                                    .accessibilityLabel("Available via Nostr")
+                            }
+                            
+                            Text("\(privatePeerNick)")
+                                .font(.system(size: 16, weight: .medium, design: .monospaced))
                                 .foregroundColor(textColor)
-                                .accessibilityLabel("Connected via mesh")
-                        case .relayConnected:
-                            // Chain link for relay connection
-                            Image(systemName: "link")
-                                .font(.system(size: 14))
-                                .foregroundColor(Color.blue)
-                                .accessibilityLabel("Connected via relay")
-                        case .nostrAvailable:
-                            // Purple globe for Nostr
-                            Image(systemName: "globe")
-                                .font(.system(size: 14))
-                                .foregroundColor(.purple)
-                                .accessibilityLabel("Available via Nostr")
-                        case .offline:
-                            // Should not happen for PM header, but handle gracefully
-                            EmptyView()
+                            
+                            // Dynamic encryption status icon
+                            let encryptionStatus = viewModel.getEncryptionStatus(for: privatePeerID)
+                            if let icon = encryptionStatus.icon {
+                                Image(systemName: icon)
+                                    .font(.system(size: 14))
+                                    .foregroundColor(encryptionStatus == .noiseVerified ? textColor :
+                                                   encryptionStatus == .noiseSecured ? textColor :
+                                                   Color.red)
+                                    .accessibilityLabel("Encryption status: \(encryptionStatus == .noiseVerified ? "verified" : encryptionStatus == .noiseSecured ? "secured" : "not encrypted")")
+                            }
                         }
-                    } else if isNostrAvailable {
-                        // Fallback to Nostr if peer not in list but is mutual favorite
-                        Image(systemName: "globe")
-                            .font(.system(size: 14))
-                            .foregroundColor(.purple)
-                            .accessibilityLabel("Available via Nostr")
+                        .accessibilityLabel("Private chat with \(privatePeerNick)")
+                        .accessibilityHint("Tap to view encryption fingerprint")
                     }
+                    .buttonStyle(.plain)
                     
-                    Text("\(privatePeerNick)")
-                        .font(.system(size: 16, weight: .medium, design: .monospaced))
-                        .foregroundColor(textColor)
-                    
-                    // Dynamic encryption status icon
-                    let encryptionStatus = viewModel.getEncryptionStatus(for: privatePeerID)
-                    if let icon = encryptionStatus.icon {
-                        Image(systemName: icon)
-                            .font(.system(size: 14))
-                            .foregroundColor(encryptionStatus == .noiseVerified ? textColor :
-                                             encryptionStatus == .noiseSecured ? textColor :
-                                             Color.red)
-                            .accessibilityLabel("Encryption status: \(encryptionStatus == .noiseVerified ? "verified" : encryptionStatus == .noiseSecured ? "secured" : "not encrypted")")
+                    // Left and right buttons positioned with HStack
+                    HStack {
+                        Button(action: {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                showPrivateChat = false
+                                viewModel.endPrivateChat()
+                            }
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 12))
+                                .foregroundColor(textColor)
+                                .frame(width: 44, height: 44, alignment: .leading)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Back to main chat")
+                        
+                        Spacer()
+                        
+                        // Favorite button
+                        Button(action: {
+                            viewModel.toggleFavorite(peerID: privatePeerID)
+                        }) {
+                            Image(systemName: viewModel.isFavorite(peerID: privatePeerID) ? "star.fill" : "star")
+                                .font(.system(size: 16))
+                                .foregroundColor(viewModel.isFavorite(peerID: privatePeerID) ? Color.yellow : textColor)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(viewModel.isFavorite(peerID: privatePeerID) ? "Remove from favorites" : "Add to favorites")
+                        .accessibilityHint("Double tap to toggle favorite status")
                     }
                 }
-                .accessibilityLabel("Private chat with \(privatePeerNick)")
-                .accessibilityHint("Tap to view encryption fingerprint")
-            }
-            .buttonStyle(.plain)
-            
-            // Left and right buttons positioned with HStack
-            HStack {
-                Button(action: {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        showPrivateChat = false
-                        viewModel.endPrivateChat()
-                    }
-                }) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 12))
-                        .foregroundColor(textColor)
-                        .frame(width: 44, height: 44, alignment: .leading)
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Back to main chat")
-                
-                Spacer()
-                
-                // Favorite button
-                Button(action: {
-                    viewModel.toggleFavorite(peerID: privatePeerID)
-                }) {
-                    Image(systemName: viewModel.isFavorite(peerID: privatePeerID) ? "star.fill" : "star")
-                        .font(.system(size: 16))
-                        .foregroundColor(viewModel.isFavorite(peerID: privatePeerID) ? Color.yellow : textColor)
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(viewModel.isFavorite(peerID: privatePeerID) ? "Remove from favorites" : "Add to favorites")
-                .accessibilityHint("Double tap to toggle favorite status")
-            }
-        }
-        .frame(height: 44)
-        .padding(.horizontal, 12)
-        .background(backgroundColor.opacity(0.95))
+                .frame(height: 44)
+                .padding(.horizontal, 12)
+                .background(backgroundColor.opacity(0.95))
     }
     
 }
@@ -1220,11 +1204,11 @@ struct DeliveryStatusView: View {
     // MARK: - Computed Properties
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color(red: 36/255, green: 150/255, blue: 237/255)
     }
     
     private var secondaryTextColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.8) : Color(red: 0, green: 0.5, blue: 0).opacity(0.8)
+        Color(red: 36/255, green: 150/255, blue: 237/255).opacity(0.8)
     }
     
     // MARK: - Body
