@@ -472,7 +472,7 @@
 			buildConfigurationList = DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "Echo_macOS" */;
 			buildPhases = (
 				137ABE739BF20ACDDF8CC605 /* Sources */,
-				0214973A876129753D39EB47 /* Resources */,
+				23891543E1F14747B6ABE894 /* Resources */,
 				04F127ED2E37EBFF00FFBA8D /* Frameworks */,
 			);
 			buildRules = (
@@ -616,7 +616,7 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0214973A876129753D39EB47 /* Resources */ = {
+		23891543E1F14747B6ABE894 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
