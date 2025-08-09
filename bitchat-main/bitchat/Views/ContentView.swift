@@ -291,6 +291,7 @@ struct ContentView: View {
                             if message.sender == "system" {
                                 // System messages
                                 Text(viewModel.formatMessageAsText(message, colorScheme: colorScheme))
+    .foregroundColor((isStaff && !message.isPrivate && privatePeer == nil && message.sender == viewModel.nickname) ? Color(red: 36/255, green: 150/255, blue: 237/255) : nil)
                                     .textSelection(.enabled)
                                     .fixedSize(horizontal: false, vertical: true)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -300,6 +301,7 @@ struct ContentView: View {
                                     HStack(alignment: .top, spacing: 0) {
                                         // Single text view for natural wrapping
                                         Text(viewModel.formatMessageAsText(message, colorScheme: colorScheme))
+    .foregroundColor((isStaff && !message.isPrivate && privatePeer == nil && message.sender == viewModel.nickname) ? Color(red: 36/255, green: 150/255, blue: 237/255) : nil)
                                             .textSelection(.enabled)
                                             .fixedSize(horizontal: false, vertical: true)
                                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -810,7 +812,7 @@ struct ContentView: View {
                 .opacity(isStaff ? 1.0 : 0.5)
         }
         .background(backgroundColor)
-        .foregroundColor(Color(red: 36/255, green: 150/255, blue: 237/255))
+        .foregroundColor(textColor)
         .gesture(
             DragGesture()
                 .onChanged { value in
