@@ -78,6 +78,9 @@
 		61C81ED5F679D5E973EE0C07 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3448F84BF86A42A3CC4A9379 /* NotificationService.swift */; };
 		6DE056E1EE9850E9FBF50157 /* BitchatProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229F17B68CFF7AB1BC91C847 /* BitchatProtocol.swift */; };
 		6E7761E21C99F28AE2F9BE5F /* BitchatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF625BB3AD919322C01A46B2 /* BitchatApp.swift */; };
+		6EDF52032E478C8F00AD7EBE /* StaffAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52012E47824900AD7EBE /* StaffAuth.swift */; };
+		6EDF52042E478C9600AD7EBE /* StaffCodeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52022E47828B00AD7EBE /* StaffCodeSheet.swift */; };
+		6EDF52062E478CEC00AD7EBE /* StaffBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52052E478CDF00AD7EBE /* StaffBadge.swift */; };
 		749D8CF8A362B6CD0786782D /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3448F84BF86A42A3CC4A9379 /* NotificationService.swift */; };
 		7576A357B278E5733E9D9F33 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B8F7B7D55092C2540A7996 /* ChatViewModel.swift */; };
 		7A50E2F04A3515A7E90EEAE4 /* BluetoothMeshService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C3D880FF8AE1673B20E1E3 /* BluetoothMeshService.swift */; };
@@ -183,6 +186,9 @@
 		527EB217EFDFAD4CF1C91F07 /* bitchat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = bitchat.entitlements; sourceTree = "<group>"; };
 		61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = bitchatShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2446380E7A44E49A35B664 /* IdentityModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityModels.swift; sourceTree = "<group>"; };
+		6EDF52012E47824900AD7EBE /* StaffAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAuth.swift; sourceTree = "<group>"; };
+		6EDF52022E47828B00AD7EBE /* StaffCodeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffCodeSheet.swift; sourceTree = "<group>"; };
+		6EDF52052E478CDF00AD7EBE /* StaffBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffBadge.swift; sourceTree = "<group>"; };
 		763E0DBA9492A654FC0CDCB9 /* AppInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoView.swift; sourceTree = "<group>"; };
 		8F3A7C058C2C8E1A06C8CF8B /* bitchat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bitchat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F16C3A4A5621C74461D8D3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -331,6 +337,7 @@
 				EF625BB3AD919322C01A46B2 /* BitchatApp.swift */,
 				EA706D8E5097785414646A8E /* Info.plist */,
 				95F16C3A4A5621C74461D8D3 /* LaunchScreen.storyboard */,
+				6EDF52002E4781EA00AD7EBE /* FestUX */,
 				ADD53BCDA233C02E53458926 /* Protocols */,
 				04B6BA442E2035530090FE39 /* Noise */,
 				04F127E32E37EBAA00FFBA8D /* Nostr */,
@@ -359,6 +366,16 @@
 				2EE9D4FA625C4671ACD371D4 /* SecureIdentityStateManager.swift */,
 			);
 			path = Identity;
+			sourceTree = "<group>";
+		};
+		6EDF52002E4781EA00AD7EBE /* FestUX */ = {
+			isa = PBXGroup;
+			children = (
+				6EDF52052E478CDF00AD7EBE /* StaffBadge.swift */,
+				6EDF52022E47828B00AD7EBE /* StaffCodeSheet.swift */,
+				6EDF52012E47824900AD7EBE /* StaffAuth.swift */,
+			);
+			path = FestUX;
 			sourceTree = "<group>";
 		};
 		9A78348821A7D3374607D4E3 /* Utils */ = {
@@ -680,6 +697,7 @@
 				04891CA92E22971E0064A111 /* LRUCache.swift in Sources */,
 				6DE056E1EE9850E9FBF50157 /* BitchatProtocol.swift in Sources */,
 				04B6BA492E2035530090FE39 /* NoiseSecurityConsiderations.swift in Sources */,
+				6EDF52042E478C9600AD7EBE /* StaffCodeSheet.swift in Sources */,
 				04B6BA4A2E2035530090FE39 /* NoiseSession.swift in Sources */,
 				04B6BA4B2E2035530090FE39 /* NoiseProtocol.swift in Sources */,
 				D948085736ED8E736C1DE3B0 /* BluetoothMeshService.swift in Sources */,
@@ -688,6 +706,7 @@
 				7576A357B278E5733E9D9F33 /* ChatViewModel.swift in Sources */,
 				7DCA0DBCB8884E3B31C7BCE3 /* CompressionUtil.swift in Sources */,
 				1D9674FA5F998503831DC281 /* ContentView.swift in Sources */,
+				6EDF52062E478CEC00AD7EBE /* StaffBadge.swift in Sources */,
 				04B6BA4E2E2038A70090FE39 /* NoiseEncryptionService.swift in Sources */,
 				CD0AE423F03AC52BAFC16834 /* DeliveryTracker.swift in Sources */,
 				8F737CE0435792CC2AD65FCB /* KeychainManager.swift in Sources */,
@@ -701,6 +720,7 @@
 				046D705D2E3C105D00C00594 /* InputValidator.swift in Sources */,
 				04B6BA552E203D6C0090FE39 /* FingerprintView.swift in Sources */,
 				04636BEE2E30CD4A00FBCFA8 /* NoiseHandshakeCoordinator.swift in Sources */,
+				6EDF52032E478C8F00AD7EBE /* StaffAuth.swift in Sources */,
 				CEAE115C9C3EB3C4ED82F128 /* MessageRetryService.swift in Sources */,
 				61C81ED5F679D5E973EE0C07 /* NotificationService.swift in Sources */,
 				04636BC02E2FCA8A00FBCFA8 /* SecureLogger.swift in Sources */,
