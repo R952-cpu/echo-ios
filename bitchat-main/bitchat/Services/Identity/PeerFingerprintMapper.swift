@@ -11,43 +11,60 @@ final class PeerFingerprintMapper {
 
     init(defaults: UserDefaults = UserDefaults(suiteName: "io.echo.identity") ?? .standard) {
         self.defaults = defaults
-        self.map = defaults.dictionary(forKey: storageKey) as? [String: String] ?? [:]
+        if let saved = defaults.dictionary(forKey: storageKey) as? [String: String] {
+            self.map = Dictionary(uniqueKeysWithValues: saved.map { (canonical($0.key), canonical($0.value)) })
+        } else {
+            self.map = [:]
+        }
     }
 
     // MARK: - Public API
 
     func fingerprint(forPeerID peerID: String) -> String? {
+        let key = canonical(peerID)
         var result: String?
-        queue.sync { result = map[peerID] }
+        queue.sync { result = map[key] }
         return result
     }
 
     func peerIDs(forFingerprint fingerprint: String) -> [String] {
+        let value = canonical(fingerprint)
         var result: [String] = []
         queue.sync {
-            result = map.compactMap { $0.value == fingerprint ? $0.key : nil }
+            result = map.compactMap { $0.value == value ? $0.key : nil }
         }
         return result
     }
 
     func setMapping(peerID: String, fingerprint: String) {
-        queue.sync(flags: .barrier) {
-            map[peerID] = fingerprint
-            persist()
+        let key = canonical(peerID)
+        let value = canonical(fingerprint)
+        queue.async(flags: .barrier) {
+            self.map[key] = value
+            self.persist()
         }
     }
 
     func removePeerID(_ peerID: String) {
-        queue.sync(flags: .barrier) {
-            map.removeValue(forKey: peerID)
-            persist()
+        let key = canonical(peerID)
+        queue.async(flags: .barrier) {
+            self.map.removeValue(forKey: key)
+            self.persist()
         }
     }
 
     func removeAll(forFingerprint fingerprint: String) {
-        queue.sync(flags: .barrier) {
-            map = map.filter { $0.value != fingerprint }
-            persist()
+        let value = canonical(fingerprint)
+        queue.async(flags: .barrier) {
+            self.map = self.map.filter { $0.value != value }
+            self.persist()
+        }
+    }
+
+    func removeAll() {
+        queue.async(flags: .barrier) {
+            self.map.removeAll()
+            self.persist()
         }
     }
 
@@ -55,6 +72,10 @@ final class PeerFingerprintMapper {
 
     private func persist() {
         defaults.set(map, forKey: storageKey)
+    }
+
+    private func canonical(_ s: String) -> String {
+        s.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
     }
 }
 

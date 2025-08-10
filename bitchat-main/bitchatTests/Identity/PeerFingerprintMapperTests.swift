@@ -19,23 +19,26 @@ final class PeerFingerprintMapperTests: XCTestCase {
 
     func testMappingAndPersistence() {
         var mapper = PeerFingerprintMapper(defaults: defaults)
-        mapper.setMapping(peerID: "peer1", fingerprint: "fp1")
+        mapper.setMapping(peerID: " Peer1 ", fingerprint: " FP1")
         mapper.setMapping(peerID: "peer2", fingerprint: "fp1")
         mapper.setMapping(peerID: "peer3", fingerprint: "fp2")
 
-        XCTAssertEqual(mapper.fingerprint(forPeerID: "peer1"), "fp1")
-        XCTAssertEqual(Set(mapper.peerIDs(forFingerprint: "fp1")), Set(["peer1", "peer2"]))
+        XCTAssertEqual(mapper.fingerprint(forPeerID: "PEER1"), "fp1")
+        XCTAssertEqual(Set(mapper.peerIDs(forFingerprint: " fp1 ")), Set(["peer1", "peer2"]))
 
-        mapper.removePeerID("peer1")
+        mapper.removePeerID("PEER1 ")
         XCTAssertNil(mapper.fingerprint(forPeerID: "peer1"))
-        XCTAssertEqual(mapper.peerIDs(forFingerprint: "fp1"), ["peer2"])
+        XCTAssertEqual(mapper.peerIDs(forFingerprint: "FP1"), ["peer2"])
 
-        mapper.removeAll(forFingerprint: "fp1")
+        mapper.removeAll(forFingerprint: " FP1 ")
         XCTAssertTrue(mapper.peerIDs(forFingerprint: "fp1").isEmpty)
         XCTAssertEqual(mapper.fingerprint(forPeerID: "peer3"), "fp2")
+
+        mapper.removeAll()
+        XCTAssertNil(mapper.fingerprint(forPeerID: "peer3"))
 
         mapper = PeerFingerprintMapper(defaults: defaults)
-        XCTAssertEqual(mapper.fingerprint(forPeerID: "peer3"), "fp2")
         XCTAssertTrue(mapper.peerIDs(forFingerprint: "fp1").isEmpty)
+        XCTAssertTrue(mapper.peerIDs(forFingerprint: "fp2").isEmpty)
     }
 }
