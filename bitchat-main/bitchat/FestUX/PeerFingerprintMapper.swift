@@ -14,7 +14,7 @@ final class PeerFingerprintMapper {
     }
 
     // Alias pour l'ordre d'arguments existant
-    func setFingerprint(_ fingerprint: String, for peerID: String) {
+    func setFingerprint(_ peerID: String, for fingerprint: String) {
         setMapping(peerID: peerID, fingerprint: fingerprint)
     }
 
