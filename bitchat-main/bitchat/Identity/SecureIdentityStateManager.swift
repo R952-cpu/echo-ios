@@ -351,10 +351,11 @@ class SecureIdentityStateManager {
     func updateHandshakeState(peerID: String, state: HandshakeState) {
         queue.async(flags: .barrier) {
             self.ephemeralSessions[peerID]?.handshakeState = state
-            
+
             // If handshake completed, update last interaction
             if case .completed(let fingerprint) = state {
                 self.cache.lastInteractions[fingerprint] = Date()
+                PeerFingerprintMapper.shared.setFingerprint(fingerprint, for: peerID)
                 self.saveIdentityCache()
             }
         }
@@ -428,6 +429,7 @@ class SecureIdentityStateManager {
         queue.async(flags: .barrier) {
             self.ephemeralSessions.removeValue(forKey: peerID)
             self.pendingActions.removeValue(forKey: peerID)
+            PeerFingerprintMapper.shared.removePeerID(peerID)
         }
     }
     
