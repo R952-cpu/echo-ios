@@ -13,6 +13,11 @@ final class PeerFingerprintMapper {
         setMapping(peerID: peerID, fingerprint: fingerprint)
     }
 
+    // Alias pour l'ordre d'arguments existant
+    func setFingerprint(_ fingerprint: String, for peerID: String) {
+        setMapping(peerID: peerID, fingerprint: fingerprint)
+    }
+
     // Nom attendu par SecureIdentityStateManager
     func removePeerID(_ peerID: String) {
         remove(peerID: peerID)
