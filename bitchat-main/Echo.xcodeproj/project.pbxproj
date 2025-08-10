@@ -77,6 +77,7 @@
 		4B747085D07A1BCE0F5BA612 /* BinaryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2136C3E22D02D4A8DBE7EAB /* BinaryProtocol.swift */; };
 		5D95F2BFBE257A1225998389 /* BatteryOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED176FF3B274E35C2D827894 /* BatteryOptimizer.swift */; };
 		61C81ED5F679D5E973EE0C07 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3448F84BF86A42A3CC4A9379 /* NotificationService.swift */; };
+		61DD14580F334EB9B346AC5D /* PeerFingerprintMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E141D46234E4D2F85E7DD2E /* PeerFingerprintMapper.swift */; };
 		6DE056E1EE9850E9FBF50157 /* BitchatProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229F17B68CFF7AB1BC91C847 /* BitchatProtocol.swift */; };
 		6E7761E21C99F28AE2F9BE5F /* BitchatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF625BB3AD919322C01A46B2 /* BitchatApp.swift */; };
 		6EAE221F2E48CE290090179A /* PMConsentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE221E2E48CE190090179A /* PMConsentSheet.swift */; };
@@ -100,6 +101,8 @@
 		ABAF130D88561F4A646F0430 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763E0DBA9492A654FC0CDCB9 /* AppInfoView.swift */; };
 		AD11E46940D742AEAF547EB2 /* AppInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763E0DBA9492A654FC0CDCB9 /* AppInfoView.swift */; };
 		B0CA7796B2B2AC2B33F84548 /* CompressionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F149C43D1915831B60FE09 /* CompressionUtil.swift */; };
+		B7C18CECBE2D40D29E32CCBD /* PeerFingerprintMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF54C798CA441A38B627A49 /* PeerFingerprintMapperTests.swift */; };
+		BCA92808B85847C6A1564FF5 /* PeerFingerprintMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E141D46234E4D2F85E7DD2E /* PeerFingerprintMapper.swift */; };
 		BCCFEDC1EBE59323C3C470BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A69677D382F1C3D5ED03F7D /* Assets.xcassets */; };
 		C0A80BA73EC1A372B9338E3C /* BatteryOptimizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED176FF3B274E35C2D827894 /* BatteryOptimizer.swift */; };
 		C99763A4761567F587D21688 /* MessageRetryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D7595A613F7ED3B386132 /* MessageRetryService.swift */; };
@@ -107,13 +110,10 @@
 		CEAE115C9C3EB3C4ED82F128 /* MessageRetryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D7595A613F7ED3B386132 /* MessageRetryService.swift */; };
 		D450CF41F207BDE1A1AAA56E /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B8F7B7D55092C2540A7996 /* ChatViewModel.swift */; };
 		D948085736ED8E736C1DE3B0 /* BluetoothMeshService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C3D880FF8AE1673B20E1E3 /* BluetoothMeshService.swift */; };
+		DAA46FBB15014AF1A60AF7F5 /* PeerFingerprintMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF54C798CA441A38B627A49 /* PeerFingerprintMapperTests.swift */; };
 		E65BBB6544FE0159F3C6C3A8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95F16C3A4A5621C74461D8D3 /* LaunchScreen.storyboard */; };
 		F455F011B3B648ADA233F998 /* BinaryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2136C3E22D02D4A8DBE7EAB /* BinaryProtocol.swift */; };
-                FB8819B4C84FAFEF5C36B216 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136696FC4436A02D98CE6A77 /* KeychainManager.swift */; };
-                BCA92808B85847C6A1564FF5 /* PeerFingerprintMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E141D46234E4D2F85E7DD2E /* PeerFingerprintMapper.swift */; };
-                61DD14580F334EB9B346AC5D /* PeerFingerprintMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E141D46234E4D2F85E7DD2E /* PeerFingerprintMapper.swift */; };
-                DAA46FBB15014AF1A60AF7F5 /* PeerFingerprintMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF54C798CA441A38B627A49 /* PeerFingerprintMapperTests.swift */; };
-                B7C18CECBE2D40D29E32CCBD /* PeerFingerprintMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF54C798CA441A38B627A49 /* PeerFingerprintMapperTests.swift */; };
+		FB8819B4C84FAFEF5C36B216 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136696FC4436A02D98CE6A77 /* KeychainManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +183,7 @@
 		04F127FC2E37EF3D00FFBA8D /* BitchatPeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitchatPeer.swift; sourceTree = "<group>"; };
 		04F127FF2E37F00000FFBA8D /* ProcessedMessagesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessedMessagesService.swift; sourceTree = "<group>"; };
 		04F128072E37F10000FFBA8D /* PeerSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerSession.swift; sourceTree = "<group>"; };
+		0DF54C798CA441A38B627A49 /* PeerFingerprintMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerFingerprintMapperTests.swift; sourceTree = "<group>"; };
 		12B9C3EDF3BC73D3BC106DA4 /* DeliveryTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryTracker.swift; sourceTree = "<group>"; };
 		136696FC4436A02D98CE6A77 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		229F17B68CFF7AB1BC91C847 /* BitchatProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitchatProtocol.swift; sourceTree = "<group>"; };
@@ -194,6 +195,7 @@
 		3A69677D382F1C3D5ED03F7D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		527EB217EFDFAD4CF1C91F07 /* bitchat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = bitchat.entitlements; sourceTree = "<group>"; };
 		61F92EBA29C47C0FCC482F1F /* EchoShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EchoShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E141D46234E4D2F85E7DD2E /* PeerFingerprintMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerFingerprintMapper.swift; sourceTree = "<group>"; };
 		6E2446380E7A44E49A35B664 /* IdentityModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityModels.swift; sourceTree = "<group>"; };
 		6EAE221E2E48CE190090179A /* PMConsentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMConsentSheet.swift; sourceTree = "<group>"; };
 		6EAE22212E48CE580090179A /* PMConsentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMConsentStore.swift; sourceTree = "<group>"; };
@@ -216,10 +218,8 @@
 		E6B8F7B7D55092C2540A7996 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		EA706D8E5097785414646A8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		ED176FF3B274E35C2D827894 /* BatteryOptimizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryOptimizer.swift; sourceTree = "<group>"; };
-                EF625BB3AD919322C01A46B2 /* BitchatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitchatApp.swift; sourceTree = "<group>"; };
-                FF7AF93D874001FBD94C8306 /* bitchat-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "bitchat-macOS.entitlements"; sourceTree = "<group>"; };
-                6E141D46234E4D2F85E7DD2E /* PeerFingerprintMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerFingerprintMapper.swift; sourceTree = "<group>"; };
-                0DF54C798CA441A38B627A49 /* PeerFingerprintMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerFingerprintMapperTests.swift; sourceTree = "<group>"; };
+		EF625BB3AD919322C01A46B2 /* BitchatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitchatApp.swift; sourceTree = "<group>"; };
+		FF7AF93D874001FBD94C8306 /* bitchat-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "bitchat-macOS.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,6 +406,14 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		9B55F974EB54461AA794BECD /* Identity */ = {
+			isa = PBXGroup;
+			children = (
+				6E141D46234E4D2F85E7DD2E /* PeerFingerprintMapper.swift */,
+			);
+			path = Identity;
+			sourceTree = "<group>";
+		};
 		9F37F9F2C353B58AC809E93B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,54 +457,46 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-                C3D98EB3E1B455E321F519F4 /* bitchatTests */ = {
-                        isa = PBXGroup;
-                        children = (
-                                04636BE22E30BEC600FBCFA8 /* Integration */,
-                                04636BC62E30BE5100FBCFA8 /* EndToEnd */,
-                                04636BC92E30BE5100FBCFA8 /* Mocks */,
-                                04636BCB2E30BE5100FBCFA8 /* Noise */,
-                                04636BCD2E30BE5100FBCFA8 /* Protocol */,
-                                04636BD02E30BE5100FBCFA8 /* TestUtilities */,
-                                D26DDDF7D0D0447193BF12D1 /* Identity */,
-                                D69A18D27F9A565FD6041E12 /* Info.plist */,
-                        );
-                        path = bitchatTests;
-                        sourceTree = "<group>";
-                };
-                D98A3186D7E4C72E35BDF7FE /* Services */ = {
-                        isa = PBXGroup;
-                        children = (
-                                04F127F62E37EEEE00FFBA8D /* FavoritesPersistenceService.swift */,
-                                04F127F72E37EEEE00FFBA8D /* MessageRouter.swift */,
-                                04F127FF2E37F00000FFBA8D /* ProcessedMessagesService.swift */,
-                                04B6BA4D2E2038A70090FE39 /* NoiseEncryptionService.swift */,
-                                D5C3D880FF8AE1673B20E1E3 /* BluetoothMeshService.swift */,
-                                12B9C3EDF3BC73D3BC106DA4 /* DeliveryTracker.swift */,
-                                136696FC4436A02D98CE6A77 /* KeychainManager.swift */,
-                                AA4D7595A613F7ED3B386132 /* MessageRetryService.swift */,
-                                3448F84BF86A42A3CC4A9379 /* NotificationService.swift */,
-                                9B55F974EB54461AA794BECD /* Identity */,
-                        );
-                        path = Services;
-                        sourceTree = "<group>";
-                };
-        9B55F974EB54461AA794BECD /* Identity */ = {
-                isa = PBXGroup;
-                children = (
-                        6E141D46234E4D2F85E7DD2E /* PeerFingerprintMapper.swift */,
-                );
-                path = Identity;
-                sourceTree = "<group>";
-        };
-        D26DDDF7D0D0447193BF12D1 /* Identity */ = {
-                isa = PBXGroup;
-                children = (
-                        0DF54C798CA441A38B627A49 /* PeerFingerprintMapperTests.swift */,
-                );
-                path = Identity;
-                sourceTree = "<group>";
-        };
+		C3D98EB3E1B455E321F519F4 /* bitchatTests */ = {
+			isa = PBXGroup;
+			children = (
+				04636BE22E30BEC600FBCFA8 /* Integration */,
+				04636BC62E30BE5100FBCFA8 /* EndToEnd */,
+				04636BC92E30BE5100FBCFA8 /* Mocks */,
+				04636BCB2E30BE5100FBCFA8 /* Noise */,
+				04636BCD2E30BE5100FBCFA8 /* Protocol */,
+				04636BD02E30BE5100FBCFA8 /* TestUtilities */,
+				D26DDDF7D0D0447193BF12D1 /* Identity */,
+				D69A18D27F9A565FD6041E12 /* Info.plist */,
+			);
+			path = bitchatTests;
+			sourceTree = "<group>";
+		};
+		D26DDDF7D0D0447193BF12D1 /* Identity */ = {
+			isa = PBXGroup;
+			children = (
+				0DF54C798CA441A38B627A49 /* PeerFingerprintMapperTests.swift */,
+			);
+			path = Identity;
+			sourceTree = "<group>";
+		};
+		D98A3186D7E4C72E35BDF7FE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				04F127F62E37EEEE00FFBA8D /* FavoritesPersistenceService.swift */,
+				04F127F72E37EEEE00FFBA8D /* MessageRouter.swift */,
+				04F127FF2E37F00000FFBA8D /* ProcessedMessagesService.swift */,
+				04B6BA4D2E2038A70090FE39 /* NoiseEncryptionService.swift */,
+				D5C3D880FF8AE1673B20E1E3 /* BluetoothMeshService.swift */,
+				12B9C3EDF3BC73D3BC106DA4 /* DeliveryTracker.swift */,
+				136696FC4436A02D98CE6A77 /* KeychainManager.swift */,
+				AA4D7595A613F7ED3B386132 /* MessageRetryService.swift */,
+				3448F84BF86A42A3CC4A9379 /* NotificationService.swift */,
+				9B55F974EB54461AA794BECD /* Identity */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -725,12 +725,12 @@
 				04636BBF2E2FCA8A00FBCFA8 /* SecureLogger.swift in Sources */,
 				0245710AEAA58AD0A1425234 /* OptimizedBloomFilter.swift in Sources */,
 				04F127F82E37EEEE00FFBA8D /* MessageRouter.swift in Sources */,
-                                04F127F92E37EEEE00FFBA8D /* FavoritesPersistenceService.swift in Sources */,
-                                04F128042E37F00000FFBA8D /* ProcessedMessagesService.swift in Sources */,
-                                61DD14580F334EB9B346AC5D /* PeerFingerprintMapper.swift in Sources */,
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+				04F127F92E37EEEE00FFBA8D /* FavoritesPersistenceService.swift in Sources */,
+				04F128042E37F00000FFBA8D /* ProcessedMessagesService.swift in Sources */,
+				61DD14580F334EB9B346AC5D /* PeerFingerprintMapper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4E49E34F00154C051AE90FED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -773,12 +773,12 @@
 				04636BC02E2FCA8A00FBCFA8 /* SecureLogger.swift in Sources */,
 				1F48A8CEEE9399D1EBD08F0C /* OptimizedBloomFilter.swift in Sources */,
 				04F127FA2E37EEEE00FFBA8D /* MessageRouter.swift in Sources */,
-                                04F127FB2E37EEEE00FFBA8D /* FavoritesPersistenceService.swift in Sources */,
-                                04F128052E37F00000FFBA8D /* ProcessedMessagesService.swift in Sources */,
-                                BCA92808B85847C6A1564FF5 /* PeerFingerprintMapper.swift in Sources */,
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+				04F127FB2E37EEEE00FFBA8D /* FavoritesPersistenceService.swift in Sources */,
+				04F128052E37F00000FFBA8D /* ProcessedMessagesService.swift in Sources */,
+				BCA92808B85847C6A1564FF5 /* PeerFingerprintMapper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5C22AA7B9ACC5A861445C769 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -790,12 +790,12 @@
 				04636BDC2E30BE5100FBCFA8 /* TestConstants.swift in Sources */,
 				04636BDD2E30BE5100FBCFA8 /* MockBluetoothMeshService.swift in Sources */,
 				04636BDE2E30BE5100FBCFA8 /* NoiseProtocolTests.swift in Sources */,
-                                04636BDF2E30BE5100FBCFA8 /* TestHelpers.swift in Sources */,
-                                04636BE02E30BE5100FBCFA8 /* PublicChatE2ETests.swift in Sources */,
-                                B7C18CECBE2D40D29E32CCBD /* PeerFingerprintMapperTests.swift in Sources */,
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+				04636BDF2E30BE5100FBCFA8 /* TestHelpers.swift in Sources */,
+				04636BE02E30BE5100FBCFA8 /* PublicChatE2ETests.swift in Sources */,
+				B7C18CECBE2D40D29E32CCBD /* PeerFingerprintMapperTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		865C8403EF02C089369A9FCB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -807,12 +807,12 @@
 				04636BD42E30BE5100FBCFA8 /* TestConstants.swift in Sources */,
 				04636BD52E30BE5100FBCFA8 /* MockBluetoothMeshService.swift in Sources */,
 				04636BD62E30BE5100FBCFA8 /* NoiseProtocolTests.swift in Sources */,
-                                04636BD72E30BE5100FBCFA8 /* TestHelpers.swift in Sources */,
-                                04636BD82E30BE5100FBCFA8 /* PublicChatE2ETests.swift in Sources */,
-                                DAA46FBB15014AF1A60AF7F5 /* PeerFingerprintMapperTests.swift in Sources */,
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+				04636BD72E30BE5100FBCFA8 /* TestHelpers.swift in Sources */,
+				04636BD82E30BE5100FBCFA8 /* PublicChatE2ETests.swift in Sources */,
+				DAA46FBB15014AF1A60AF7F5 /* PeerFingerprintMapperTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
