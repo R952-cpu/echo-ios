@@ -137,6 +137,7 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
     private var peerManager: PeerManager?
     private let userDefaults = UserDefaults.standard
     private let nicknameKey = "bitchat.nickname"
+    private let pmConsentStore = PMConsentStore.shared
     
     // MARK: - Caches
     
@@ -2262,6 +2263,55 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
         
         // Update encryption status after verification
         updateEncryptionStatus(for: peerID)
+    }
+
+    // MARK: - Private Message Consent
+
+    func sendPMConsentRequest(to peerID: String) {
+        let myFingerprint = getMyFingerprint()
+        guard let otherFingerprint = getFingerprint(for: peerID) else { return }
+        let payload = PMConsentMessage(fromFingerprint: myFingerprint, toFingerprint: otherFingerprint)
+        pmConsentStore.setStatus(.requested, between: myFingerprint, and: otherFingerprint)
+        meshService.sendPMConsentMessage(payload, type: .pmRequest, to: peerID)
+    }
+
+    func sendPMConsentAcceptance(to peerID: String) {
+        let myFingerprint = getMyFingerprint()
+        guard let otherFingerprint = getFingerprint(for: peerID) else { return }
+        let payload = PMConsentMessage(fromFingerprint: myFingerprint, toFingerprint: otherFingerprint)
+        pmConsentStore.setStatus(.accepted, between: myFingerprint, and: otherFingerprint)
+        meshService.sendPMConsentMessage(payload, type: .pmAccept, to: peerID)
+    }
+
+    func sendPMConsentRefusal(to peerID: String) {
+        let myFingerprint = getMyFingerprint()
+        guard let otherFingerprint = getFingerprint(for: peerID) else { return }
+        let payload = PMConsentMessage(fromFingerprint: myFingerprint, toFingerprint: otherFingerprint)
+        pmConsentStore.setStatus(.refused, between: myFingerprint, and: otherFingerprint)
+        meshService.sendPMConsentMessage(payload, type: .pmRefuse, to: peerID)
+    }
+
+    func handlePMConsent(message: PMConsentMessage, type: MessageType) {
+        let myFingerprint = getMyFingerprint()
+        guard message.toFingerprint == myFingerprint else { return }
+        let other = message.fromFingerprint
+        let current = pmConsentStore.status(between: myFingerprint, and: other)
+        switch type {
+        case .pmRequest:
+            if current == .unknown {
+                pmConsentStore.setStatus(.requested, between: myFingerprint, and: other)
+            }
+        case .pmAccept:
+            if current != .accepted {
+                pmConsentStore.setStatus(.accepted, between: myFingerprint, and: other)
+            }
+        case .pmRefuse:
+            if current != .refused {
+                pmConsentStore.setStatus(.refused, between: myFingerprint, and: other)
+            }
+        default:
+            break
+        }
     }
     
     func loadVerifiedFingerprints() {

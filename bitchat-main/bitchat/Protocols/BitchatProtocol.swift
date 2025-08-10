@@ -161,10 +161,15 @@ enum MessageType: UInt8 {
     case protocolNack = 0x23            // Negative acknowledgment (failure)
     case systemValidation = 0x24        // Session validation ping
     case handshakeRequest = 0x25        // Request handshake for pending messages
-    
+
     // Favorite system messages
     case favorited = 0x30               // Peer favorited us
     case unfavorited = 0x31             // Peer unfavorited us
+
+    // Private message consent messages
+    case pmRequest = 0x40               // Request PM permission
+    case pmAccept = 0x41                // Accept PM request
+    case pmRefuse = 0x42                // Refuse PM request
     
     var description: String {
         switch self {
@@ -189,6 +194,9 @@ enum MessageType: UInt8 {
         case .handshakeRequest: return "handshakeRequest"
         case .favorited: return "favorited"
         case .unfavorited: return "unfavorited"
+        case .pmRequest: return "pmRequest"
+        case .pmAccept: return "pmAccept"
+        case .pmRefuse: return "pmRefuse"
         }
     }
 }
@@ -565,6 +573,41 @@ struct HandshakeRequest: Codable {
                                targetID: targetID,
                                pendingMessageCount: pendingMessageCount,
                                timestamp: timestamp)
+    }
+}
+
+// MARK: - Private Message Consent
+
+/// Payload for PM consent negotiation messages.
+struct PMConsentMessage: Codable {
+    let version: UInt8
+    let fromFingerprint: String
+    let toFingerprint: String
+
+    init(fromFingerprint: String, toFingerprint: String, version: UInt8 = 1) {
+        self.version = version
+        self.fromFingerprint = fromFingerprint
+        self.toFingerprint = toFingerprint
+    }
+
+    func toBinaryData() -> Data {
+        var data = Data()
+        data.appendUInt8(version)
+        data.appendString(fromFingerprint)
+        data.appendString(toFingerprint)
+        return data
+    }
+
+    static func fromBinaryData(_ data: Data) -> PMConsentMessage? {
+        let dataCopy = Data(data)
+        guard dataCopy.count >= 1 else { return nil }
+        var offset = 0
+        guard let version = dataCopy.readUInt8(at: &offset),
+              let from = dataCopy.readString(at: &offset),
+              let to = dataCopy.readString(at: &offset),
+              InputValidator.validateFingerprint(from),
+              InputValidator.validateFingerprint(to) else { return nil }
+        return PMConsentMessage(fromFingerprint: from, toFingerprint: to, version: version)
     }
 }
 

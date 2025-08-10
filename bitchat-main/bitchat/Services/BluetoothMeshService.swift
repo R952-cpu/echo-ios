@@ -3495,6 +3495,12 @@ class BluetoothMeshService: NSObject {
                 messageTypeName = "SYSTEM_VALIDATION"
             case .handshakeRequest:
                 messageTypeName = "HANDSHAKE_REQUEST"
+            case .pmRequest:
+                messageTypeName = "PM_REQ"
+            case .pmAccept:
+                messageTypeName = "PM_ACC"
+            case .pmRefuse:
+                messageTypeName = "PM_REF"
             default:
                 messageTypeName = "UNKNOWN(\(packet.type))"
             }
@@ -4780,7 +4786,20 @@ class BluetoothMeshService: NSObject {
             if !isPeerIDOurs(senderID) {
                 handleHandshakeRequest(from: senderID, data: packet.payload)
             }
-            
+
+        case .pmRequest, .pmAccept, .pmRefuse:
+            let senderID = packet.senderID.hexEncodedString()
+            if !isPeerIDOurs(senderID),
+               let consent = PMConsentMessage.fromBinaryData(packet.payload) {
+                PeerFingerprintMapper.shared.setFingerprint(consent.fromFingerprint, for: senderID)
+                DispatchQueue.main.async { [weak self] in
+                    if let chatVM = self?.delegate as? ChatViewModel,
+                       let type = MessageType(rawValue: packet.type) {
+                        chatVM.handlePMConsent(message: consent, type: type)
+                    }
+                }
+            }
+
         case .favorited:
             // Now handled as private messages with "SYSTEM:FAVORITED" content
             // See handleReceivedPacket for MESSAGE type handling
@@ -7993,6 +8012,22 @@ extension BluetoothMeshService: CBPeripheralManagerDelegate {
             // Use selective relay if direct delivery fails
             sendViaSelectiveRelay(packet, recipientPeerID: targetPeerID)
             // Sent handshake via relay
+        }
+    }
+
+    func sendPMConsentMessage(_ consent: PMConsentMessage, type: MessageType, to targetPeerID: String) {
+        messageQueue.async { [weak self] in
+            guard let self = self else { return }
+            let data = consent.toBinaryData()
+            let packet = BitchatPacket(type: type.rawValue,
+                                      ttl: 6,
+                                      senderID: self.myPeerID,
+                                      payload: data)
+            if self.sendDirectToRecipient(packet, recipientPeerID: targetPeerID) {
+                // Sent consent message directly
+            } else {
+                self.sendViaSelectiveRelay(packet, recipientPeerID: targetPeerID)
+            }
         }
     }
     

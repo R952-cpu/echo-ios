@@ -88,7 +88,7 @@ struct InputValidator {
             0x01, 0x03, 0x04, 0x05, 0x06, 0x07, 0x0A, 0x0B, 0x0C,
             0x10, 0x11, 0x12, 0x13,
             0x20, 0x21, 0x22, 0x23, 0x24, 0x25,
-            0x30, 0x31
+            0x30, 0x31, 0x40, 0x41, 0x42
         ]
         return validTypes.contains(type)
     }
@@ -109,6 +109,11 @@ struct InputValidator {
     /// Validates data size for different contexts
     static func validateDataSize(_ data: Data, maxSize: Int) -> Bool {
         return data.count > 0 && data.count <= maxSize
+    }
+
+    /// Validates a public key fingerprint (64 hex characters)
+    static func validateFingerprint(_ fingerprint: String) -> Bool {
+        return fingerprint.count == 64 && fingerprint.allSatisfy { $0.isHexDigit }
     }
     
     // MARK: - Binary Data Validation
