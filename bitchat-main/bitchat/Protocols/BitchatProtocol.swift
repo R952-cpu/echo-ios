@@ -165,6 +165,9 @@ enum MessageType: UInt8 {
     // Favorite system messages
     case favorited = 0x30               // Peer favorited us
     case unfavorited = 0x31             // Peer unfavorited us
+    case pmRequest = 0x32              // Peer requests consent
+    case pmAccept = 0x33               // Peer accepts consent
+    case pmRefuse = 0x34               // Peer refuses consent
     
     var description: String {
         switch self {
@@ -189,6 +192,9 @@ enum MessageType: UInt8 {
         case .handshakeRequest: return "handshakeRequest"
         case .favorited: return "favorited"
         case .unfavorited: return "unfavorited"
+        case .pmRequest: return "pmRequest"
+        case .pmAccept: return "pmAccept"
+        case .pmRefuse: return "pmRefuse"
         }
     }
 }
@@ -1245,6 +1251,8 @@ extension BitchatMessage: Equatable {
 
 // MARK: - Delegate Protocol
 
+public enum PMConsentAction { case request, accept, refuse }
+
 protocol BitchatDelegate: AnyObject {
     func didReceiveMessage(_ message: BitchatMessage)
     func didConnectToPeer(_ peerID: String)
@@ -1258,9 +1266,12 @@ protocol BitchatDelegate: AnyObject {
     func didReceiveDeliveryAck(_ ack: DeliveryAck)
     func didReceiveReadReceipt(_ receipt: ReadReceipt)
     func didUpdateMessageDeliveryStatus(_ messageID: String, status: DeliveryStatus)
-    
+
     // Peer availability tracking
     func peerAvailabilityChanged(_ peerID: String, available: Bool)
+
+    // Private message consent
+    func didReceivePMConsent(_ msg: PMConsentMessage, from peerID: String, type: PMConsentAction)
 }
 
 // Provide default implementation to make it effectively optional
@@ -1280,8 +1291,12 @@ extension BitchatDelegate {
     func didUpdateMessageDeliveryStatus(_ messageID: String, status: DeliveryStatus) {
         // Default empty implementation
     }
-    
+
     func peerAvailabilityChanged(_ peerID: String, available: Bool) {
+        // Default empty implementation
+    }
+
+    func didReceivePMConsent(_ msg: PMConsentMessage, from peerID: String, type: PMConsentAction) {
         // Default empty implementation
     }
 }
