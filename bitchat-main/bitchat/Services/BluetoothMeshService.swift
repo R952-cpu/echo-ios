@@ -5970,13 +5970,15 @@ extension BluetoothMeshService: CBPeripheralManagerDelegate {
         switch MessageType(rawValue: type) {
         case .noiseHandshakeInit, .noiseHandshakeResp, .protocolAck,
              .versionHello, .versionAck, .deliveryAck, .systemValidation,
-             .handshakeRequest:
+             .handshakeRequest, .pmRequest, .pmAccept, .pmRefuse:
             return true
         case .message, .announce, .leave, .readReceipt, .deliveryStatusRequest,
              .fragmentStart, .fragmentContinue, .fragmentEnd,
              .noiseIdentityAnnounce, .noiseEncrypted, .protocolNack, 
              .favorited, .unfavorited, .none:
             return false
+     
+
         }
     }
     
