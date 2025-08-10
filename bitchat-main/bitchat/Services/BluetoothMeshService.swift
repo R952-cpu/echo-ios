@@ -1674,7 +1674,7 @@ class BluetoothMeshService: NSObject {
         // Setup noise callbacks
         noiseService.onPeerAuthenticated = { [weak self] peerID, fingerprint in
             guard let self = self else { return }
-            
+
             // Store fingerprint in PeerSession for fast lookups
             self.collectionsQueue.async(flags: .barrier) {
                 if let session = self.peerSessions[peerID] {
@@ -1688,7 +1688,9 @@ class BluetoothMeshService: NSObject {
                     self.peerSessions[peerID] = session
                 }
             }
-            
+
+            PeerFingerprintMapper.shared.setMapping(peerID: peerID, fingerprint: fingerprint)
+
             // Get peer's public key data from noise service
             if let publicKeyData = self.noiseService.getPeerPublicKeyData(peerID) {
                 // Register with ChatViewModel for verification tracking
@@ -3495,6 +3497,12 @@ class BluetoothMeshService: NSObject {
                 messageTypeName = "SYSTEM_VALIDATION"
             case .handshakeRequest:
                 messageTypeName = "HANDSHAKE_REQUEST"
+            case .pmRequest:
+                messageTypeName = "PM_REQUEST"
+            case .pmAccept:
+                messageTypeName = "PM_ACCEPT"
+            case .pmRefuse:
+                messageTypeName = "PM_REFUSE"
             default:
                 messageTypeName = "UNKNOWN(\(packet.type))"
             }
@@ -4780,7 +4788,19 @@ class BluetoothMeshService: NSObject {
             if !isPeerIDOurs(senderID) {
                 handleHandshakeRequest(from: senderID, data: packet.payload)
             }
-            
+
+        case .pmRequest:
+            let senderID = packet.senderID.hexEncodedString()
+            handlePMConsentMessage(.request, from: senderID, payload: packet.payload)
+
+        case .pmAccept:
+            let senderID = packet.senderID.hexEncodedString()
+            handlePMConsentMessage(.accept, from: senderID, payload: packet.payload)
+
+        case .pmRefuse:
+            let senderID = packet.senderID.hexEncodedString()
+            handlePMConsentMessage(.refuse, from: senderID, payload: packet.payload)
+
         case .favorited:
             // Now handled as private messages with "SYSTEM:FAVORITED" content
             // See handleReceivedPacket for MESSAGE type handling
@@ -7950,7 +7970,7 @@ extension BluetoothMeshService: CBPeripheralManagerDelegate {
     
     // MARK: - Targeted Message Delivery
     
-    private func sendDirectToRecipient(_ packet: BitchatPacket, recipientPeerID: String) -> Bool {
+    func sendDirectToRecipient(_ packet: BitchatPacket, recipientPeerID: String) -> Bool {
         // Try to send directly to the recipient if they're connected
         if let peripheral = connectedPeripherals[recipientPeerID],
            let characteristic = peripheralCharacteristics[peripheral],
