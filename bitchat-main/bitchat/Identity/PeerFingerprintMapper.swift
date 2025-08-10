@@ -11,7 +11,7 @@ final class PeerFingerprintMapper {
 
     private init() {}
 
-    /// Associates a peer ID with a fingerprint.
+    /// Associates a peer ID with a fingerprint. (canonical form: fingerprint, for: peerID)
     func setFingerprint(_ fingerprint: String, for peerID: String) {
         queue.async(flags: .barrier) {
             self.peerIDToFingerprint[peerID] = fingerprint
@@ -19,27 +19,28 @@ final class PeerFingerprintMapper {
         }
     }
 
-    /// Convenience aliases for backward compatibility
+    // ---- Compatibility aliases (keep both) ----
+
+    /// Compatibility: setFingerprint(peerID, for: fingerprint)
     func setFingerprint(_ peerID: String, for fingerprint: String) {
         setFingerprint(fingerprint, for: peerID)
     }
 
+    /// Compatibility with labeled parameters
     func setFingerprint(peerID: String, fingerprint: String) {
         setFingerprint(fingerprint, for: peerID)
     }
 
+    // -------------------------------------------
+
     /// Retrieves the fingerprint for a peer ID.
     func fingerprint(for peerID: String) -> String? {
-        queue.sync {
-            peerIDToFingerprint[peerID]
-        }
+        queue.sync { peerIDToFingerprint[peerID] }
     }
 
     /// Retrieves the current peer ID for a fingerprint.
     func peerID(for fingerprint: String) -> String? {
-        queue.sync {
-            fingerprintToPeerID[fingerprint]
-        }
+        queue.sync { fingerprintToPeerID[fingerprint] }
     }
 
     /// Removes all mappings for a peer ID.
@@ -51,4 +52,3 @@ final class PeerFingerprintMapper {
         }
     }
 }
-
