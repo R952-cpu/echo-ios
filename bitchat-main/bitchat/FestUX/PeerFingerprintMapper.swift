@@ -12,6 +12,11 @@ final class PeerFingerprintMapper {
     func setFingerprint(peerID: String, fingerprint: String) {
         setMapping(peerID: peerID, fingerprint: fingerprint)
     }
+    
+    // Alias attendu par certains appels : setFingerprint(peerIDValue, for: fingerprintValue)
+    func setFingerprint(_ peerID: String, for fingerprint: String) {
+        setMapping(peerID: peerID, fingerprint: fingerprint)
+    }
 
     // Nom attendu par SecureIdentityStateManager
     func removePeerID(_ peerID: String) {
