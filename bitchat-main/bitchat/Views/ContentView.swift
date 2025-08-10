@@ -52,6 +52,12 @@ struct LazyLinkPreviewView: View {
     }
 }
 
+// Wrapper simple pour les .sheet basés sur optionnels
+struct PendingWrapper<T>: Identifiable {
+    let id = UUID()
+    let value: T
+}
+
 // MARK: - Main Content View
 
 struct ContentView: View {
@@ -202,6 +208,25 @@ struct ContentView: View {
         // ✅ Feuille STAFF — à ce niveau (au même niveau que les autres .sheet)
         .sheet(isPresented: $showStaffSheet) {
             StaffCodeSheet()
+        }
+        .sheet(item: Binding(
+            get: { viewModel.pendingPMConsent.map { PendingWrapper(value: $0) } },
+            set: { _ in viewModel.pendingPMConsent = nil }
+        )) { wrapper in
+            let info = wrapper.value
+            PMConsentSheet(
+                fromNickname: info.nickname,
+                onAccept: {
+                    PMConsentStore.shared.accept(fingerprint: info.fingerprint)
+                    viewModel.isPrivateInputLocked = false
+                    viewModel.meshService.sendPMConsent(.accept, to: info.peerID)
+                },
+                onDecline: {
+                    PMConsentStore.shared.revoke(fingerprint: info.fingerprint)
+                    viewModel.isPrivateInputLocked = true
+                    viewModel.meshService.sendPMConsent(.refuse, to: info.peerID)
+                }
+            )
         }
         // ✅ Badge STAFF en overlay
         .overlay(alignment: .topTrailing) {
@@ -509,6 +534,7 @@ struct ContentView: View {
                 .foregroundColor(textColor)
                 .focused($isTextFieldFocused)
                 .padding(.leading, 12)
+                .disabled(viewModel.isPrivateInputLocked)
                 .autocorrectionDisabled(true)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
@@ -582,6 +608,7 @@ struct ContentView: View {
             .padding(.trailing, 12)
             .accessibilityLabel("Send message")
             .accessibilityHint(messageText.isEmpty ? "Enter a message to send" : "Double tap to send")
+            .disabled(viewModel.isPrivateInputLocked)
             }
             .padding(.vertical, 8)
             .background(backgroundColor.opacity(0.95))

@@ -114,6 +114,10 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
     @Published var selectedPrivateChatPeer: String? = nil
     private var selectedPrivateChatFingerprint: String? = nil  // Track by fingerprint for persistence across reconnections
     @Published var unreadPrivateMessages: Set<String> = []
+    /// Demande de consentement PM en attente (peerID, pseudo, empreinte)
+    @Published var pendingPMConsent: (peerID: String, nickname: String, fingerprint: String)?
+    /// Verrouillage de la saisie privée tant que pas de consentement
+    @Published var isPrivateInputLocked: Bool = false
     @Published var autocompleteSuggestions: [String] = []
     @Published var showAutocomplete: Bool = false
     @Published var autocompleteRange: NSRange? = nil
@@ -914,6 +918,19 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
         // Also track by fingerprint for persistence across reconnections
         selectedPrivateChatFingerprint = peerIDToPublicKeyFingerprint[peerID]
         unreadPrivateMessages.remove(peerID)
+
+        // Vérifier le consentement PM et envoyer une requête si nécessaire
+        let fp = PeerFingerprintMapper.shared.fingerprint(forPeerID: peerID)
+        if let fingerprint = fp, PMConsentStore.shared.isAccepted(fingerprint: fingerprint) {
+            // Déjà autorisé, on peut écrire
+            isPrivateInputLocked = false
+        } else {
+            // Pas de consentement → on verrouille et on envoie la demande une seule fois
+            isPrivateInputLocked = true
+            if pendingPMConsent?.peerID != peerID {
+                meshService.sendPMConsent(.request, to: peerID)
+            }
+        }
         
         // Check if we need to migrate messages from an old peer ID
         // This happens when peer IDs change between sessions
@@ -3316,7 +3333,29 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
     func isFavorite(fingerprint: String) -> Bool {
         return SecureIdentityStateManager.shared.isFavorite(fingerprint: fingerprint)
     }
-    
+
+    // MARK: - Consentement PM
+
+    func didReceivePMConsent(_ msg: PMConsentMessage, from peerID: String, type: PMConsentAction) {
+        switch type {
+        case .request:
+            let nickname = meshService.getPeerNicknames()[peerID] ?? "inconnu"
+            pendingPMConsent = (peerID, nickname, msg.fingerprint)
+
+        case .accept:
+            PMConsentStore.shared.accept(fingerprint: msg.fingerprint)
+            if let fp = PeerFingerprintMapper.shared.fingerprint(forPeerID: peerID), fp == msg.fingerprint {
+                isPrivateInputLocked = false
+            }
+
+        case .refuse:
+            PMConsentStore.shared.revoke(fingerprint: msg.fingerprint)
+            if let fp = PeerFingerprintMapper.shared.fingerprint(forPeerID: peerID), fp == msg.fingerprint {
+                isPrivateInputLocked = true
+            }
+        }
+    }
+
     // MARK: - Delivery Tracking
     
     func didReceiveDeliveryAck(_ ack: DeliveryAck) {
