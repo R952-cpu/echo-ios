@@ -86,6 +86,8 @@
 		6EAE22232E48CE750090179A /* PMConsentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE22212E48CE580090179A /* PMConsentStore.swift */; };
 		6EAE22262E4923FD0090179A /* PMContentMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE22252E4923E80090179A /* PMContentMessage.swift */; };
 		6EAE22272E4923FD0090179A /* PMContentMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE22252E4923E80090179A /* PMContentMessage.swift */; };
+		6EAE222B2E4935CA0090179A /* BluetoothMeshService+PMConsent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE222A2E4935C60090179A /* BluetoothMeshService+PMConsent.swift */; };
+		6EAE222C2E4935CA0090179A /* BluetoothMeshService+PMConsent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE222A2E4935C60090179A /* BluetoothMeshService+PMConsent.swift */; };
 		6EDF52032E478C8F00AD7EBE /* StaffAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52012E47824900AD7EBE /* StaffAuth.swift */; };
 		6EDF52042E478C9600AD7EBE /* StaffCodeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52022E47828B00AD7EBE /* StaffCodeSheet.swift */; };
 		6EDF52062E478CEC00AD7EBE /* StaffBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDF52052E478CDF00AD7EBE /* StaffBadge.swift */; };
@@ -202,6 +204,7 @@
 		6EAE221E2E48CE190090179A /* PMConsentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMConsentSheet.swift; sourceTree = "<group>"; };
 		6EAE22212E48CE580090179A /* PMConsentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMConsentStore.swift; sourceTree = "<group>"; };
 		6EAE22252E4923E80090179A /* PMContentMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMContentMessage.swift; sourceTree = "<group>"; };
+		6EAE222A2E4935C60090179A /* BluetoothMeshService+PMConsent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BluetoothMeshService+PMConsent.swift"; sourceTree = "<group>"; };
 		6EDF52012E47824900AD7EBE /* StaffAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAuth.swift; sourceTree = "<group>"; };
 		6EDF52022E47828B00AD7EBE /* StaffCodeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffCodeSheet.swift; sourceTree = "<group>"; };
 		6EDF52052E478CDF00AD7EBE /* StaffBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffBadge.swift; sourceTree = "<group>"; };
@@ -487,6 +490,7 @@
 		D98A3186D7E4C72E35BDF7FE /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6EAE222A2E4935C60090179A /* BluetoothMeshService+PMConsent.swift */,
 				04F127F62E37EEEE00FFBA8D /* FavoritesPersistenceService.swift */,
 				04F127F72E37EEEE00FFBA8D /* MessageRouter.swift */,
 				04F127FF2E37F00000FFBA8D /* ProcessedMessagesService.swift */,
@@ -723,6 +727,7 @@
 				04F127FE2E37EF3D00FFBA8D /* BitchatPeer.swift in Sources */,
 				04F128062E37F10000FFBA8D /* PeerSession.swift in Sources */,
 				046D705E2E3C105D00C00594 /* InputValidator.swift in Sources */,
+				6EAE222B2E4935CA0090179A /* BluetoothMeshService+PMConsent.swift in Sources */,
 				04B6BA572E203D6C0090FE39 /* FingerprintView.swift in Sources */,
 				04636BED2E30CD4A00FBCFA8 /* NoiseHandshakeCoordinator.swift in Sources */,
 				C99763A4761567F587D21688 /* MessageRetryService.swift in Sources */,
@@ -774,6 +779,7 @@
 				04B6BA552E203D6C0090FE39 /* FingerprintView.swift in Sources */,
 				04636BEE2E30CD4A00FBCFA8 /* NoiseHandshakeCoordinator.swift in Sources */,
 				6EDF52032E478C8F00AD7EBE /* StaffAuth.swift in Sources */,
+				6EAE222C2E4935CA0090179A /* BluetoothMeshService+PMConsent.swift in Sources */,
 				CEAE115C9C3EB3C4ED82F128 /* MessageRetryService.swift in Sources */,
 				61C81ED5F679D5E973EE0C07 /* NotificationService.swift in Sources */,
 				04636BC02E2FCA8A00FBCFA8 /* SecureLogger.swift in Sources */,
