@@ -19,6 +19,15 @@ final class PeerFingerprintMapper {
         }
     }
 
+    /// Convenience aliases for backward compatibility
+    func setFingerprint(_ peerID: String, for fingerprint: String) {
+        setFingerprint(fingerprint, for: peerID)
+    }
+
+    func setFingerprint(peerID: String, fingerprint: String) {
+        setFingerprint(fingerprint, for: peerID)
+    }
+
     /// Retrieves the fingerprint for a peer ID.
     func fingerprint(for peerID: String) -> String? {
         queue.sync {

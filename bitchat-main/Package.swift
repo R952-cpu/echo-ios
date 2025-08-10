@@ -23,7 +23,8 @@ let package = Package(
                 "Assets.xcassets",
                 "bitchat.entitlements",
                 "bitchat-macOS.entitlements",
-                "LaunchScreen.storyboard"
+                "LaunchScreen.storyboard",
+                "FestUX/PeerFingerprintMapper.swift"
             ]
         ),
     ]
