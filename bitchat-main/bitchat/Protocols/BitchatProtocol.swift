@@ -1258,9 +1258,13 @@ protocol BitchatDelegate: AnyObject {
     func didReceiveDeliveryAck(_ ack: DeliveryAck)
     func didReceiveReadReceipt(_ receipt: ReadReceipt)
     func didUpdateMessageDeliveryStatus(_ messageID: String, status: DeliveryStatus)
-    
+
     // Peer availability tracking
     func peerAvailabilityChanged(_ peerID: String, available: Bool)
+
+    // Private chat consent flow
+    func didReceivePrivateChatRequest(from peerID: String)
+    func didReceivePrivateChatResponse(from peerID: String, accepted: Bool)
 }
 
 // Provide default implementation to make it effectively optional
@@ -1280,8 +1284,11 @@ extension BitchatDelegate {
     func didUpdateMessageDeliveryStatus(_ messageID: String, status: DeliveryStatus) {
         // Default empty implementation
     }
-    
+
     func peerAvailabilityChanged(_ peerID: String, available: Bool) {
         // Default empty implementation
     }
+
+    func didReceivePrivateChatRequest(from peerID: String) {}
+    func didReceivePrivateChatResponse(from peerID: String, accepted: Bool) {}
 }

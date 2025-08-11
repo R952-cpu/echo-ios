@@ -245,6 +245,30 @@ struct ContentView: View {
             
             Button("cancel", role: .cancel) {}
         }
+     .alert(
++            "Demande de chat privé",
++            isPresented: Binding(
++                get: { viewModel.pendingPrivateChatRequestFrom != nil },
++                set: { presenting in
++                    if !presenting { viewModel.pendingPrivateChatRequestFrom = nil }
++                }
++            )
++        ) {
++            let peerID = viewModel.pendingPrivateChatRequestFrom ?? ""
++            Button("Accepter") {
++                viewModel.acceptPrivateChatRequest(from: peerID)
++            }
++            Button("Refuser", role: .destructive) {
++                viewModel.declinePrivateChatRequest(from: peerID)
++            }
++            Button("Annuler", role: .cancel) {
++                viewModel.pendingPrivateChatRequestFrom = nil
++            }
++        } message: {
++            let peerID = viewModel.pendingPrivateChatRequestFrom ?? ""
++            let nickname = viewModel.meshService.getPeerNicknames()[peerID] ?? peerID
++            Text("\(nickname) souhaite démarrer un chat privé. Accepter ?")
++        }
         .alert("Bluetooth Required", isPresented: $viewModel.showBluetoothAlert) {
             Button("Settings") {
                 #if os(iOS)
@@ -578,6 +602,7 @@ struct ContentView: View {
                                             viewModel.selectedPrivateChatPeer != nil
                                              ? Color.orange : textColor)
             }
+            .disabled(messageText.isEmpty)
             .buttonStyle(.plain)
             .padding(.trailing, 12)
             .accessibilityLabel("Send message")
@@ -853,14 +878,18 @@ struct ContentView: View {
             Rectangle()
                 .fill(Color.gray.opacity(0.3))
                 .frame(width: 1)
-            
+
             VStack(spacing: 0) {
+                let privatePeerID = viewModel.selectedPrivateChatPeer
+                let state = privatePeerID.flatMap { viewModel.privateChatStates[$0] } ?? .none
+
                 privateHeaderView
                 Divider()
                 messagesView(privatePeer: viewModel.selectedPrivateChatPeer)
                 Divider()
-                // ⚠️ PM reste actif, pas de disable ici
                 inputView
+                    .disabled(state != .active)
+                    .opacity(state == .active ? 1.0 : 0.5)
             }
             .background(backgroundColor)
             .foregroundColor(textColor)
