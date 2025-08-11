@@ -3096,6 +3096,15 @@ class BluetoothMeshService: NSObject {
                 networkBecameEmptyTime = nil
             }
         }
+        // ... plein de fonctions ici ...
+
+        // Convenience helper for ViewModel to check Noise session
+        func hasEstablishedNoiseSession(with peerID: String) -> Bool {
+            return noiseService.hasEstablishedSession(with: peerID)
+        }
+
+    
+
     }
     
     // MARK: - Store-and-Forward Methods

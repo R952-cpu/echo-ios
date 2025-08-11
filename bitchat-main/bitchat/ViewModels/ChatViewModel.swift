@@ -914,16 +914,16 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
     // Activate a private chat once consent is granted
     @MainActor
     private func activatePrivateChat(with peerID: String) {
-      if !meshService.hasEstablishedNoiseSession(with: peerID) {
-+            meshService.triggerHandshake(with: peerID)
-+        }
+        if !meshService.getNoiseService().hasEstablishedSession(with: peerID) {
+            meshService.triggerHandshake(with: peerID)
+        }
         selectedPrivateChatPeer = peerID
         selectedPrivateChatFingerprint = peerIDToPublicKeyFingerprint[peerID]
         unreadPrivateMessages.remove(peerID)
-
         if privateChats[peerID] == nil { privateChats[peerID] = [] }
         markPrivateMessagesAsRead(from: peerID)
     }
+
 
     /// Initiates a private chat session with a peer.
     /// - Parameter peerID: The peer's ID to start chatting with
