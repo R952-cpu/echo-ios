@@ -219,11 +219,15 @@ struct ContentView: View {
                 onAccept: {
                     PMConsentStore.shared.accept(fingerprint: info.fingerprint)
                     viewModel.isPrivateInputLocked = false
+                    SecureLogger.log("🔐 Sending .pmAccept to \(info.peerID)",
+                                      category: SecureLogger.session, level: .debug)
                     viewModel.meshService.sendPMConsent(.accept, to: info.peerID)
                 },
                 onDecline: {
                     PMConsentStore.shared.revoke(fingerprint: info.fingerprint)
                     viewModel.isPrivateInputLocked = true
+                    SecureLogger.log("🔐 Sending .pmRefuse to \(info.peerID)",
+                                      category: SecureLogger.session, level: .debug)
                     viewModel.meshService.sendPMConsent(.refuse, to: info.peerID)
                 }
             )
@@ -431,7 +435,9 @@ struct ContentView: View {
     // MARK: - Input View
     
     private var inputView: some View {
-        VStack(spacing: 0) {
+        let isPrivateChat = (viewModel.selectedPrivateChatPeer != nil)
+        let isLocked = (viewModel.isPrivateInputLocked && isPrivateChat)
+        return VStack(spacing: 0) {
             // @mentions autocomplete
             if viewModel.showAutocomplete && !viewModel.autocompleteSuggestions.isEmpty {
                 VStack(alignment: .leading, spacing: 0) {
@@ -534,7 +540,8 @@ struct ContentView: View {
                 .foregroundColor(textColor)
                 .focused($isTextFieldFocused)
                 .padding(.leading, 12)
-                .disabled(viewModel.isPrivateInputLocked)
+                .disabled(!isStaff || isLocked)
+                .opacity(isLocked ? 0.5 : 1.0)
                 .autocorrectionDisabled(true)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
@@ -608,7 +615,8 @@ struct ContentView: View {
             .padding(.trailing, 12)
             .accessibilityLabel("Send message")
             .accessibilityHint(messageText.isEmpty ? "Enter a message to send" : "Double tap to send")
-            .disabled(viewModel.isPrivateInputLocked)
+            .disabled(!isStaff || isLocked)
+            .opacity(isLocked ? 0.5 : 1.0)
             }
             .padding(.vertical, 8)
             .background(backgroundColor.opacity(0.95))
