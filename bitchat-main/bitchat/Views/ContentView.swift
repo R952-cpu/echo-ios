@@ -209,6 +209,12 @@ struct ContentView: View {
         .sheet(isPresented: $showStaffSheet) {
             StaffCodeSheet()
         }
+        .onChange(of: viewModel.pendingPMConsent?.peerID) { newValue in
+            if let pid = newValue {
+                print("UI probe: pendingPMConsent set for peerID=\(pid)")
+            }
+            if showStaffSheet { showStaffSheet = false }
+        }
         .sheet(item: Binding(
             get: { viewModel.pendingPMConsent.map { PendingWrapper(value: $0) } },
             set: { _ in viewModel.pendingPMConsent = nil }
@@ -231,6 +237,9 @@ struct ContentView: View {
                     viewModel.meshService.sendPMConsent(.refuse, to: info.peerID)
                 }
             )
+            .onAppear {
+                print("UI probe: PMConsentSheet appeared for peerID=\(info.peerID)")
+            }
         }
         // ✅ Badge STAFF en overlay
         .overlay(alignment: .topTrailing) {

@@ -3347,6 +3347,7 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
     // MARK: - Consentement PM
 
     func didReceivePMConsent(_ msg: PMConsentMessage, from peerID: String, type: PMConsentAction) {
+        print("VM got \(type) from \(peerID)")
         DispatchQueue.main.async {
             switch type {
             case .request:

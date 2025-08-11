@@ -4791,14 +4791,17 @@ class BluetoothMeshService: NSObject {
 
         case .pmRequest:
             let senderID = packet.senderID.hexEncodedString()
+            print("Service recv .pmRequest from \(senderID)")
             handlePMConsentMessage(.request, from: senderID, payload: packet.payload)
 
         case .pmAccept:
             let senderID = packet.senderID.hexEncodedString()
+            print("Service recv .pmAccept from \(senderID)")
             handlePMConsentMessage(.accept, from: senderID, payload: packet.payload)
 
         case .pmRefuse:
             let senderID = packet.senderID.hexEncodedString()
+            print("Service recv .pmRefuse from \(senderID)")
             handlePMConsentMessage(.refuse, from: senderID, payload: packet.payload)
 
         case .favorited:
