@@ -245,23 +245,30 @@ struct ContentView: View {
             
             Button("cancel", role: .cancel) {}
         }
-        .alert(item: Binding(
-            get: { viewModel.pendingPrivateChatRequestFrom.map { NSString(string: $0) as String } },
-            set: { _ in }
-        )) { peerIDStr in
-            let peerID = peerIDStr
-            let nickname = viewModel.meshService.getPeerNicknames()[peerID] ?? peerID
-            return Alert(
-                title: Text("Demande de chat privé"),
-                message: Text("\(nickname) souhaite démarrer un chat privé. Accepter ?"),
-                primaryButton: .default(Text("Accepter")) {
-                    viewModel.acceptPrivateChatRequest(from: peerID)
-                },
-                secondaryButton: .destructive(Text("Refuser")) {
-                    viewModel.declinePrivateChatRequest(from: peerID)
-                }
-            )
-        }
+     .alert(
++            "Demande de chat privé",
++            isPresented: Binding(
++                get: { viewModel.pendingPrivateChatRequestFrom != nil },
++                set: { presenting in
++                    if !presenting { viewModel.pendingPrivateChatRequestFrom = nil }
++                }
++            )
++        ) {
++            let peerID = viewModel.pendingPrivateChatRequestFrom ?? ""
++            Button("Accepter") {
++                viewModel.acceptPrivateChatRequest(from: peerID)
++            }
++            Button("Refuser", role: .destructive) {
++                viewModel.declinePrivateChatRequest(from: peerID)
++            }
++            Button("Annuler", role: .cancel) {
++                viewModel.pendingPrivateChatRequestFrom = nil
++            }
++        } message: {
++            let peerID = viewModel.pendingPrivateChatRequestFrom ?? ""
++            let nickname = viewModel.meshService.getPeerNicknames()[peerID] ?? peerID
++            Text("\(nickname) souhaite démarrer un chat privé. Accepter ?")
++        }
         .alert("Bluetooth Required", isPresented: $viewModel.showBluetoothAlert) {
             Button("Settings") {
                 #if os(iOS)
