@@ -2379,7 +2379,23 @@ class BluetoothMeshService: NSObject {
             #endif
         }
     }
-    
+
+    // Send a control message requesting private chat consent
+    @MainActor
+    func sendPrivateChatRequest(to peerID: String) {
+        let controlContent = "__pm_request__"
+        let nickname = getPeerNicknames()[peerID] ?? ""
+        sendPrivateMessage(controlContent, to: peerID, recipientNickname: nickname)
+    }
+
+    // Send a control message responding to a private chat request
+    @MainActor
+    func sendPrivateChatResponse(to peerID: String, accepted: Bool) {
+        let controlContent = accepted ? "__pm_accept__" : "__pm_deny__"
+        let nickname = getPeerNicknames()[peerID] ?? ""
+        sendPrivateMessage(controlContent, to: peerID, recipientNickname: nickname)
+    }
+
     func sendDeliveryAck(_ ack: DeliveryAck, to recipientID: String) {
         // Use per-peer encryption queue to prevent nonce desynchronization
         let encryptionQueue = getEncryptionQueue(for: recipientID)
@@ -3080,6 +3096,15 @@ class BluetoothMeshService: NSObject {
                 networkBecameEmptyTime = nil
             }
         }
+        // ... plein de fonctions ici ...
+
+        // Convenience helper for ViewModel to check Noise session
+        func hasEstablishedNoiseSession(with peerID: String) -> Bool {
+            return noiseService.hasEstablishedSession(with: peerID)
+        }
+
+    
+
     }
     
     // MARK: - Store-and-Forward Methods
@@ -3654,8 +3679,26 @@ class BluetoothMeshService: NSObject {
                         // Track last message time from this peer
                         let peerID = packet.senderID.hexEncodedString()
                         self.lastMessageFromPeer.set(peerID, value: Date())
-                        
+
                         DispatchQueue.main.async {
+                            if messageWithPeerID.isPrivate {
+                                if let senderPeerID = messageWithPeerID.senderPeerID {
+                                    switch messageWithPeerID.content {
+                                    case "__pm_request__":
+                                        self.delegate?.didReceivePrivateChatRequest(from: senderPeerID)
+                                        return
+                                    case "__pm_accept__":
+                                        self.delegate?.didReceivePrivateChatResponse(from: senderPeerID, accepted: true)
+                                        return
+                                    case "__pm_deny__":
+                                        self.delegate?.didReceivePrivateChatResponse(from: senderPeerID, accepted: false)
+                                        return
+                                    default:
+                                        break
+                                    }
+                                }
+                            }
+
                             self.delegate?.didReceiveMessage(messageWithPeerID)
                         }
                         
@@ -3783,8 +3826,26 @@ class BluetoothMeshService: NSObject {
                         // Track last message time from this peer
                         let peerID = packet.senderID.hexEncodedString()
                         self.lastMessageFromPeer.set(peerID, value: Date())
-                        
+
                         DispatchQueue.main.async {
+                            if messageWithPeerID.isPrivate {
+                                if let senderPeerID = messageWithPeerID.senderPeerID {
+                                    switch messageWithPeerID.content {
+                                    case "__pm_request__":
+                                        self.delegate?.didReceivePrivateChatRequest(from: senderPeerID)
+                                        return
+                                    case "__pm_accept__":
+                                        self.delegate?.didReceivePrivateChatResponse(from: senderPeerID, accepted: true)
+                                        return
+                                    case "__pm_deny__":
+                                        self.delegate?.didReceivePrivateChatResponse(from: senderPeerID, accepted: false)
+                                        return
+                                    default:
+                                        break
+                                    }
+                                }
+                            }
+
                             self.delegate?.didReceiveMessage(messageWithPeerID)
                         }
                         

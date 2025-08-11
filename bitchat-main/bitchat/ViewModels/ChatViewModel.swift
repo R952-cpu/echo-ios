@@ -114,6 +114,8 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
     @Published var selectedPrivateChatPeer: String? = nil
     private var selectedPrivateChatFingerprint: String? = nil  // Track by fingerprint for persistence across reconnections
     @Published var unreadPrivateMessages: Set<String> = []
+    @Published var privateChatStates: [String: PrivateChatState] = [:]
+    @Published var pendingPrivateChatRequestFrom: String? = nil
     @Published var autocompleteSuggestions: [String] = []
     @Published var showAutocomplete: Bool = false
     @Published var autocompleteRange: NSRange? = nil
@@ -856,15 +858,86 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
     }
     
     // MARK: - Private Chat Management
-    
+
+    // Request a private chat with another peer
+    @MainActor
+    func requestPrivateChat(with peerID: String) {
+        if privateChatStates[peerID] == .active || privateChatStates[peerID] == .requestSent { return }
+        guard peerID != meshService.myPeerID else { return }
+
+        privateChatStates[peerID] = .requestSent
+
+        let peerName = meshService.getPeerNicknames()[peerID] ?? peerID
+        let sysMsg = BitchatMessage(sender: "system",
+                                    content: "sent private chat request to \(peerName)",
+                                    timestamp: Date(),
+                                    isRelay: false)
+        messages.append(sysMsg)
+
+        meshService.sendPrivateChatRequest(to: peerID)
+    }
+
+    // Handle an incoming private chat request
+    @MainActor
+    func handleIncomingPrivateChatRequest(from peerID: String) {
+        guard privateChatStates[peerID] != .active else { return }
+        privateChatStates[peerID] = .requestReceived
+        pendingPrivateChatRequestFrom = peerID
+    }
+
+    // Accept an incoming private chat request
+    @MainActor
+    func acceptPrivateChatRequest(from peerID: String) {
+        guard privateChatStates[peerID] == .requestReceived else { return }
+        privateChatStates[peerID] = .active
+        pendingPrivateChatRequestFrom = nil
+        meshService.sendPrivateChatResponse(to: peerID, accepted: true)
+        activatePrivateChat(with: peerID)
+    }
+
+    // Decline an incoming private chat request
+    @MainActor
+    func declinePrivateChatRequest(from peerID: String) {
+        guard privateChatStates[peerID] == .requestReceived else { return }
+        privateChatStates[peerID] = .rejected
+        pendingPrivateChatRequestFrom = nil
+        meshService.sendPrivateChatResponse(to: peerID, accepted: false)
+
+        let peerName = meshService.getPeerNicknames()[peerID] ?? peerID
+        let sysMsg = BitchatMessage(sender: "system",
+                                    content: "declined private chat request from \(peerName)",
+                                    timestamp: Date(),
+                                    isRelay: false)
+        messages.append(sysMsg)
+    }
+
+    // Activate a private chat once consent is granted
+    @MainActor
+    private func activatePrivateChat(with peerID: String) {
+        if !meshService.getNoiseService().hasEstablishedSession(with: peerID) {
+            meshService.triggerHandshake(with: peerID)
+        }
+        selectedPrivateChatPeer = peerID
+        selectedPrivateChatFingerprint = peerIDToPublicKeyFingerprint[peerID]
+        unreadPrivateMessages.remove(peerID)
+        if privateChats[peerID] == nil { privateChats[peerID] = [] }
+        markPrivateMessagesAsRead(from: peerID)
+    }
+
+
     /// Initiates a private chat session with a peer.
     /// - Parameter peerID: The peer's ID to start chatting with
     /// - Note: Switches the UI to private chat mode and loads message history
     @MainActor
     func startPrivateChat(with peerID: String) {
+        if privateChatStates[peerID] != .active {
+            requestPrivateChat(with: peerID)
+            return
+        }
+
         // Safety check: Don't allow starting chat with ourselves
         if peerID == meshService.myPeerID {
-            SecureLogger.log("⚠️ Attempted to start private chat with self, ignoring", 
+            SecureLogger.log("⚠️ Attempted to start private chat with self, ignoring",
                             category: SecureLogger.session, level: .warning)
             return
         }
@@ -2332,20 +2405,17 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
                 
                 // Find peer ID for this nickname
                 if let peerID = getPeerIDForNickname(nickname) {
-                    startPrivateChat(with: peerID)
-                    
-                    // If there's a message after the nickname, send it
+                    requestPrivateChat(with: peerID)
+
                     if parts.count > 2 {
                         let messageContent = parts[2...].joined(separator: " ")
-                        sendPrivateMessage(messageContent, to: peerID)
-                    } else {
-                        let systemMessage = BitchatMessage(
+                        let sysMsg = BitchatMessage(
                             sender: "system",
-                            content: "started private chat with \(nickname)",
+                            content: "will send after acceptance: \(messageContent)",
                             timestamp: Date(),
                             isRelay: false
                         )
-                        messages.append(systemMessage)
+                        messages.append(sysMsg)
                     }
                 } else {
                     let systemMessage = BitchatMessage(
@@ -3196,7 +3266,34 @@ class ChatViewModel: ObservableObject, BitchatDelegate {
         }
         #endif
     }
-    
+
+    func didReceivePrivateChatRequest(from peerID: String) {
+        Task { @MainActor in
+            handleIncomingPrivateChatRequest(from: peerID)
+        }
+    }
+
+    func didReceivePrivateChatResponse(from peerID: String, accepted: Bool) {
+        Task { @MainActor in
+            if accepted {
+                privateChatStates[peerID] = .active
+                let name = meshService.getPeerNicknames()[peerID] ?? peerID
+                messages.append(BitchatMessage(sender: "system",
+                                               content: "\(name) accepted your private chat request.",
+                                               timestamp: Date(),
+                                               isRelay: false))
+                activatePrivateChat(with: peerID)
+            } else {
+                privateChatStates[peerID] = .rejected
+                let name = meshService.getPeerNicknames()[peerID] ?? peerID
+                messages.append(BitchatMessage(sender: "system",
+                                               content: "\(name) declined your private chat request.",
+                                               timestamp: Date(),
+                                               isRelay: false))
+            }
+        }
+    }
+
     // MARK: - Peer Connection Events
     
     func didConnectToPeer(_ peerID: String) {
